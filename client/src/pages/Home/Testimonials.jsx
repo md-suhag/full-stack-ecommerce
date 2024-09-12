@@ -46,7 +46,7 @@ const Testimonials = () => {
                 <div className="flex items-center">
                   <FaStar className="text-yellow-400" />
                   <span className="font-medium"> 4.9</span>{" "}
-                  <span className="text-[#807e7e">18.6k Reviews</span>
+                  <span className="text-[#807e7e] ml-1">18.6k Reviews</span>
                 </div>
               </div>
             </div>
