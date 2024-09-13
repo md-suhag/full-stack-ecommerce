@@ -1,8 +1,14 @@
 import { BiPhoneCall } from "react-icons/bi";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "/logo.png";
+import { FaUser } from "react-icons/fa";
+import Modal from "./Modal";
+import { AuthContext } from "../context/AuthProvider";
+import Profile from "./Profile";
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -106,7 +112,7 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navItems}</ul>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end ">
           {/* search  */}
           <button className="btn btn-ghost btn-circle hidden md:flex">
             <svg
@@ -148,11 +154,20 @@ const Navbar = () => {
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          {/* btn  */}
-          <a className="btn bg-green rounded-[40px] px-6 text-white flex items-center gap-2">
-            {" "}
-            <BiPhoneCall /> Contact
-          </a>
+          {/* login btn  */}
+          {user ? (
+            <Profile user={user} />
+          ) : (
+            <button
+              onClick={() => document.getElementById("my_modal_3").showModal()}
+              className="btn bg-green rounded-[40px] px-6 text-white flex items-center gap-2"
+            >
+              {" "}
+              <FaUser /> Login
+            </button>
+          )}
+
+          <Modal />
         </div>
       </div>
     </header>
