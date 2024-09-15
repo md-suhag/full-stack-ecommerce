@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import Menu from "../pages/Shop/Menu";
 import UpdateProfile from "../pages/dashboard/UpdateProfile";
 import PrivateRoute from "../privateRoute/PrivateRoute";
+import Cart from "../pages/Shop/Cart";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
     element: <Main />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/cart-page", element: <Cart /> },
       {
         path: "/menu",
         element: (

@@ -39,7 +39,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     signOut(auth);
   };
-  const updateUserProfile = ({ name, photoURL }) => {
+  const updateUserProfile = (name, photoURL) => {
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photoURL,
@@ -49,13 +49,8 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setLoading(false);
-      } else {
-        // User is signed out
-        // ...
-      }
+      setUser(currentUser);
+      setLoading(false);
     });
     return () => {
       return unsubscribe();

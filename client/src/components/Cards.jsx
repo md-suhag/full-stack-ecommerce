@@ -1,12 +1,65 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { AuthContext } from "../context/AuthProvider";
 
 const Cards = ({ item }) => {
+  const { name, image, price, recipe, _id } = item;
   const [isHeartFilled, setIsHeartFilled] = useState(false);
+  const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleHeartClick = () => {
     setIsHeartFilled(!isHeartFilled);
+  };
+
+  const handleAddToCart = (item) => {
+    if (user && user?.email) {
+      const cartItems = {
+        menuId: _id,
+        name,
+        quantity: 1,
+        image,
+        price,
+        email: user.email,
+      };
+      fetch("http://localhost:3000/carts", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(cartItems),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.acknowledged) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
+    } else {
+      Swal.fire({
+        title: "Please login?",
+        text: "Without login, you can't add products to cart!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Now!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/", { state: { from: location, showModal: true } });
+        }
+      });
+    }
   };
   return (
     <div className="card bg-base-100 w-11/12 m-4 shadow-xl relative">
@@ -36,7 +89,12 @@ const Cards = ({ item }) => {
             <span className="text-red">$ </span>
             {item.price}
           </h5>
-          <button className="btn bg-green">Buy Now</button>
+          <button
+            onClick={() => handleAddToCart(item)}
+            className="btn bg-green"
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>
