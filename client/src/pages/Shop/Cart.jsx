@@ -20,7 +20,7 @@ const Cart = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/carts/${item._id}`, {
+        fetch(`http://localhost:4000/carts/${item._id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -43,7 +43,7 @@ const Cart = () => {
 
   const handleIncrease = async (item) => {
     console.log(item);
-    await fetch(`http://localhost:3000/carts/${item._id}`, {
+    await fetch(`http://localhost:4000/carts/${item._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const Cart = () => {
   };
   const handleDecrease = async (item) => {
     if (item.quantity > 1) {
-      await fetch(`http://localhost:3000/carts/${item._id}`, {
+      await fetch(`http://localhost:4000/carts/${item._id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",

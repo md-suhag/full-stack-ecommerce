@@ -1,31 +1,21 @@
 {
-  "name": "server",
+  "name": "foodi-server",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/md-suhag/full-stack-ecommerce.git"
-  },
-  "keywords": [
-    "Mern",
-    "server"
-  ],
-  "author": "Md Abdus Salam Suhag",
+  "keywords": [],
+  "author": "mamun",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/md-suhag/full-stack-ecommerce/issues"
-  },
-  "homepage": "https://github.com/md-suhag/full-stack-ecommerce#readme",
-  "description": "",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
-    "mongodb": "^6.9.0",
-    "nodemon": "^3.1.4"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.2",
+    "nodemon": "^3.0.2"
   }
 }
