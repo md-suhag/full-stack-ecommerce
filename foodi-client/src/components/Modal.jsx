@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../contexts/AuthProvider";
+import axios from "axios";
 
 const Modal = () => {
   const [errorMessage, seterrorMessage] = useState("");
@@ -16,7 +17,8 @@ const Modal = () => {
   //react hook form
   const {
     register,
-    handleSubmit, reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -27,18 +29,24 @@ const Modal = () => {
       .then((result) => {
         // Signed in
         const user = result.user;
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+        };
+        axios.post("http://localhost:6001/users", userInfo).then((response) => {
+          // console.log(response);
+          alert("Signin successful!");
+          navigate(from, { replace: true });
+          document.getElementById("my_modal_5").close();
+        });
         // console.log(user);
-        alert("Login successful!");
-        navigate(from, { replace: true });
-        document.getElementById("my_modal_5").close()
         // ...
       })
       .catch((error) => {
         const errorMessage = error.message;
         seterrorMessage("Please provide valid email & password!");
       });
-      reset()
-
+    reset();
   };
 
   // login with google
@@ -46,7 +54,15 @@ const Modal = () => {
     signUpWithGmail()
       .then((result) => {
         const user = result.user;
-        navigate('/', { replace: true });
+        const userInfo = {
+          name: result?.user?.displayName,
+          email: result?.user?.email,
+        };
+        axios.post("http://localhost:6001/users", userInfo).then((response) => {
+          // console.log(response);
+          alert("Signin successful!");
+          navigate("/");
+        });
       })
       .catch((error) => console.log(error));
   };
@@ -54,13 +70,13 @@ const Modal = () => {
   return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle">
       <div className="modal-box">
-        <div className="modal-action flex-col justify-center mt-0">
+        <div className="flex-col justify-center mt-0 modal-action">
           <form
             className="card-body"
             method="dialog"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h3 className="font-bold text-lg">Please Login!</h3>
+            <h3 className="text-lg font-bold">Please Login!</h3>
 
             {/* email */}
             <div className="form-control">
@@ -87,7 +103,7 @@ const Modal = () => {
                 {...register("password", { required: true })}
               />
               <label className="label">
-                <a href="#" className="label-text-alt link link-hover mt-2">
+                <a href="#" className="mt-2 label-text-alt link link-hover">
                   Forgot password?
                 </a>
               </label>
@@ -95,7 +111,7 @@ const Modal = () => {
 
             {/* show errors */}
             {errorMessage ? (
-              <p className="text-red text-xs italic">
+              <p className="text-xs italic text-red">
                 Provide a correct username & password.
               </p>
             ) : (
@@ -103,10 +119,10 @@ const Modal = () => {
             )}
 
             {/* submit btn */}
-            <div className="form-control mt-4">
+            <div className="mt-4 form-control">
               <input
                 type="submit"
-                className="btn bg-green text-white"
+                className="text-white btn bg-green"
                 value="Login"
               />
             </div>
@@ -114,20 +130,20 @@ const Modal = () => {
             {/* close btn */}
             <div
               htmlFor="my_modal_5"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2"
               onClick={() => document.getElementById("my_modal_5").close()}
             >
               ✕
             </div>
 
-            <p className="text-center my-2">
+            <p className="my-2 text-center">
               Donot have an account?
-              <Link to="/signup" className="underline text-red ml-1">
+              <Link to="/signup" className="ml-1 underline text-red">
                 Signup Now
               </Link>
             </p>
           </form>
-          <div className="text-center space-x-3 mb-5">
+          <div className="mb-5 space-x-3 text-center">
             <button
               onClick={handleRegister}
               className="btn btn-circle hover:bg-green hover:text-white"
